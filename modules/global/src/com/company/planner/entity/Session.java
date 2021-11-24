@@ -1,5 +1,6 @@
 package com.company.planner.entity;
 
+import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.StandardEntity;
 
@@ -10,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
@@ -80,5 +82,10 @@ public class Session extends StandardEntity {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    @MetaProperty(related = {"startDate", "duration"})
+    public LocalDateTime getEndDate() {
+        return (startDate != null && duration != null) ? startDate.plusHours(duration) : null;
     }
 }
